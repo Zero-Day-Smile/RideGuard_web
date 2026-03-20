@@ -19,10 +19,10 @@ export const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-7">
-          <a href="/#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Features</a>
-          <a href="/#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
-          <a href="/#defense" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Defense</a>
-          <a href="/#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
+          <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Features</a>
+          <a href="#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
+          <a href="#defense" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Defense</a>
+          <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
           <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Contact</Link>
         </div>
 
@@ -58,10 +58,10 @@ export const Navbar = () => {
 
       {open && (
         <div className="md:hidden border-t border-border bg-background px-4 py-4 space-y-3 animate-reveal-up">
-          <a href="/#features" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Features</a>
-          <a href="/#how-it-works" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>How It Works</a>
-          <a href="/#defense" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Defense</a>
-          <a href="/#pricing" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Pricing</a>
+          <a href="#features" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Features</a>
+          <a href="#how-it-works" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>How It Works</a>
+          <a href="#defense" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Defense</a>
+          <a href="#pricing" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Pricing</a>
           <Link to="/contact" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Contact</Link>
           <div className="pt-2 space-y-2">
             <Link to="/login" className="block" onClick={() => setOpen(false)}>
