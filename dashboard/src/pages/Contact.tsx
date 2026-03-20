@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
@@ -30,29 +29,37 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-28 pb-20">
+      <main className="relative overflow-hidden pt-28 pb-20">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,hsl(var(--primary)/0.10),transparent_45%),radial-gradient(circle_at_85%_85%,hsl(var(--secondary)/0.12),transparent_40%)]" />
         <div className="container mx-auto px-4">
           <ScrollReveal>
-            <div className="text-center mb-14">
-              <h1 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-4">Get in touch</h1>
-              <p className="text-muted-foreground text-lg max-w-md mx-auto">
-                Questions about RideGurd? Want to partner with us? We'd love to hear from you.
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="mb-3 inline-flex rounded-full border border-border/60 bg-card px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Contact RideGuard
+              </p>
+              <h1 className="font-display text-3xl font-bold text-foreground md:text-5xl">Get in touch</h1>
+              <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
+                Questions about RideGuard, deployments, or partnerships? Share your message and our team will get back to you quickly.
               </p>
             </div>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-5 gap-8 max-w-4xl mx-auto">
+          <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-5">
             {/* Contact Info */}
             <ScrollReveal>
-              <div className="md:col-span-2 space-y-6">
-                <div className="p-6 rounded-2xl bg-card border border-border/50 shadow-card space-y-6">
+              <div className="space-y-6 lg:col-span-2">
+                <div className="space-y-6 rounded-2xl border border-border/50 bg-card p-6 shadow-card">
+                  <div>
+                    <h2 className="font-display text-xl font-semibold text-foreground">Contact details</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">Prefer a direct conversation? Reach us using these channels.</p>
+                  </div>
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
                       <Mail className="w-5 h-5 text-primary-foreground" />
                     </div>
                     <div>
                       <h3 className="font-display font-semibold text-sm text-foreground">Email</h3>
-                      <p className="text-sm text-muted-foreground">hello@ridegurd.in</p>
+                      <p className="text-sm text-muted-foreground">hello@rideguard.in</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -74,14 +81,19 @@ const Contact = () => {
                     </div>
                   </div>
                 </div>
+
+                <div className="rounded-2xl border border-border/50 bg-card/70 p-5">
+                  <p className="text-sm font-medium text-foreground">Average response time</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Within 24 hours on business days.</p>
+                </div>
               </div>
             </ScrollReveal>
 
             {/* Form */}
             <ScrollReveal delay={100}>
-              <div className="md:col-span-3">
-                <form onSubmit={handleSubmit} className="p-6 rounded-2xl bg-card border border-border/50 shadow-card space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+              <div className="lg:col-span-3">
+                <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-border/50 bg-card p-6 shadow-card md:p-7">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <label className="text-sm font-medium text-foreground mb-1.5 block">Name *</label>
                       <input
