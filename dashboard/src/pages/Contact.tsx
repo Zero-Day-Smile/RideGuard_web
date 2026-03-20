@@ -33,8 +33,8 @@ const Contact = () => {
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,hsl(var(--primary)/0.10),transparent_45%),radial-gradient(circle_at_85%_85%,hsl(var(--secondary)/0.12),transparent_40%)]" />
         <div className="container mx-auto px-4">
           <ScrollReveal>
-            <div className="mx-auto mb-12 max-w-3xl text-center">
-              <p className="mb-3 inline-flex rounded-full border border-border/60 bg-card px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+            <div className="mx-auto mb-12 max-w-4xl text-center">
+              <p className="mb-3 inline-block max-w-full rounded-full border border-border/60 bg-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground">
                 Contact RideGuard
               </p>
               <h1 className="font-display text-3xl font-bold text-foreground md:text-5xl">Get in touch</h1>
@@ -44,11 +44,11 @@ const Contact = () => {
             </div>
           </ScrollReveal>
 
-          <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-5">
+          <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-6">
             {/* Contact Info */}
             <ScrollReveal>
               <div className="space-y-6 lg:col-span-2">
-                <div className="space-y-6 rounded-2xl border border-border/50 bg-card p-6 shadow-card">
+                <div className="space-y-7 rounded-2xl border border-border/50 bg-card p-7 shadow-card md:p-8">
                   <div>
                     <h2 className="font-display text-xl font-semibold text-foreground">Contact details</h2>
                     <p className="mt-1 text-sm text-muted-foreground">Prefer a direct conversation? Reach us using these channels.</p>
@@ -57,16 +57,16 @@ const Contact = () => {
                     <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
                       <Mail className="w-5 h-5 text-primary-foreground" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-display font-semibold text-sm text-foreground">Email</h3>
-                      <p className="text-sm text-muted-foreground">hello@rideguard.in</p>
+                      <p className="break-all text-sm text-muted-foreground">hello@rideguard.in</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
                       <Phone className="w-5 h-5 text-primary-foreground" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-display font-semibold text-sm text-foreground">Phone</h3>
                       <p className="text-sm text-muted-foreground">+91 98765 43210</p>
                     </div>
@@ -75,14 +75,14 @@ const Contact = () => {
                     <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
                       <MapPin className="w-5 h-5 text-primary-foreground" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-display font-semibold text-sm text-foreground">Office</h3>
                       <p className="text-sm text-muted-foreground">Mumbai, Maharashtra, India</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-border/50 bg-card/70 p-5">
+                <div className="rounded-2xl border border-border/50 bg-card/70 p-6">
                   <p className="text-sm font-medium text-foreground">Average response time</p>
                   <p className="mt-1 text-sm text-muted-foreground">Within 24 hours on business days.</p>
                 </div>
@@ -91,8 +91,8 @@ const Contact = () => {
 
             {/* Form */}
             <ScrollReveal delay={100}>
-              <div className="lg:col-span-3">
-                <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-border/50 bg-card p-6 shadow-card md:p-7">
+              <div className="lg:col-span-4">
+                <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-border/50 bg-card p-7 shadow-card md:p-9">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <label className="text-sm font-medium text-foreground mb-1.5 block">Name *</label>
