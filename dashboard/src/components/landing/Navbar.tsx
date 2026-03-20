@@ -7,6 +7,8 @@ import { useTheme } from "@/hooks/use-theme";
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { theme, toggle } = useTheme();
+  const basePath = import.meta.env.BASE_URL || "/";
+  const sectionHref = (id: string) => `${basePath}#${id}`;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
@@ -19,10 +21,10 @@ export const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-7">
-          <Link to="/#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Features</Link>
-          <Link to="/#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
-          <Link to="/#defense" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Defense</Link>
-          <Link to="/#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+          <a href={sectionHref("features")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Features</a>
+          <a href={sectionHref("how-it-works")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
+          <a href={sectionHref("defense")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Defense</a>
+          <a href={sectionHref("pricing")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
           <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Contact</Link>
         </div>
 
@@ -58,10 +60,10 @@ export const Navbar = () => {
 
       {open && (
         <div className="md:hidden border-t border-border bg-background px-4 py-4 space-y-3 animate-reveal-up">
-          <Link to="/#features" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Features</Link>
-          <Link to="/#how-it-works" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>How It Works</Link>
-          <Link to="/#defense" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Defense</Link>
-          <Link to="/#pricing" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Pricing</Link>
+          <a href={sectionHref("features")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Features</a>
+          <a href={sectionHref("how-it-works")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>How It Works</a>
+          <a href={sectionHref("defense")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Defense</a>
+          <a href={sectionHref("pricing")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Pricing</a>
           <Link to="/contact" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Contact</Link>
           <div className="pt-2 space-y-2">
             <Link to="/login" className="block" onClick={() => setOpen(false)}>
