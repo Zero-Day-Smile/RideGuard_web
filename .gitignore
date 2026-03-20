@@ -51,3 +51,6 @@ logs/
 !.vscode/settings.json
 !.vscode/extensions.json
 .idea/
+
+# Local editor history
+.history/
