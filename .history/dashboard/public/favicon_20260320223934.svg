@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="RideGuard logo">
+  <defs>
+    <linearGradient id="rgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5a4"/>
+      <stop offset="100%" stop-color="#155e75"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0b1b1b"/>
+  <path d="M32 8l17 7v12c0 13-8 23-17 29C23 50 15 40 15 27V15l17-7z" fill="url(#rgGrad)"/>
+  <path d="M21 31l8 8 14-14" fill="none" stroke="#f9fafb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

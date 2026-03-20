@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node
+node_modules/
+.npm/
+
+# Build outputs
+dist/
+build/
+coverage/
+.next/
+
+# Environment files
+.env
+.env.*
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
