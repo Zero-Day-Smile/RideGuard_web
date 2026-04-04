@@ -1,8 +1,41 @@
 # RideGuard Backend
 
+
 FastAPI service exposing RideGuard dashboard and pricing contract endpoints.
 
-The service now uses a SQLAlchemy-backed datastore with automatic seed data initialization.
+## Quickstart
+
+1. **Clone the repo and enter backend:**
+	```bash
+	git clone https://github.com/Zero-Day-Smile/RideGuard_app_web.git
+	cd RideGuard_app_web/backend
+	```
+
+2. **Create and activate a Python virtual environment:**
+	```bash
+	python -m venv .venv
+	source .venv/bin/activate
+	```
+
+3. **Install dependencies:**
+	```bash
+	pip install -r requirements.txt
+	```
+
+4. **Copy and edit your environment file:**
+	```bash
+	cp .env.example .env
+	# Edit .env to add your real API keys and DB URL
+	```
+
+5. **Start the server:**
+	```bash
+	uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+	```
+
+6. **Open the API docs:**
+	- Visit http://localhost:8000/docs in your browser.
+
 Default local mode uses SQLite, and production can use PostgreSQL via `DATABASE_URL`.
 
 ## Implemented Endpoints

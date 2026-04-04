@@ -66,6 +66,7 @@ mobile-app/android/**/.cxx/
 # Binary release/debug artifacts
 *.apk
 *.aab
+!downloads/*.apk
 
 # Misc package manager outputs
 package-lock.json

@@ -1,8 +1,74 @@
+
 # RideGuard
 
 Protecting every ride, every shift, every week.
 
 RideGuard is an AI-powered, parametric micro-insurance platform built for delivery partners in the gig economy. It protects weekly income, not just physical assets, by detecting operational disruptions and triggering automatic payouts.
+
+## Get Started (Main Setup)
+
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- npm
+- (Optional) Android Studio / Xcode for mobile builds
+
+### 1. Clone and open project
+```bash
+git clone https://github.com/Zero-Day-Smile/RideGuard_app_web.git
+cd RideGuard_app_web
+```
+
+### 2. Start Backend API (FastAPI)
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Backend URLs:
+- API: http://localhost:8000
+- Swagger docs: http://localhost:8000/docs
+
+### 3. Start Web Dashboard (React + Vite)
+Open a new terminal:
+
+```bash
+cd dashboard
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Web URL:
+- Dashboard: http://localhost:5174
+
+Make sure `VITE_API_BASE_URL` in `dashboard/.env` points to `http://localhost:8000`.
+
+### 4. Run Mobile App (Optional)
+```bash
+cd mobile-app
+npm install
+npx cap sync
+npx expo start
+```
+
+For device builds:
+- Android: `npx cap open android`
+- iOS (macOS): `npx cap open ios`
+
+## Project Guides
+- Backend details: [backend/README.md](backend/README.md)
+- Web dashboard details: [dashboard/README.md](dashboard/README.md)
+- Mobile app details: [mobile-app/README.md](mobile-app/README.md)
+
+## Try It Out
+
+- Android APK download: [downloads/RideGuard-riderweb-debug.apk](downloads/RideGuard-riderweb-debug.apk)
+- Quick testing guide: [TRY_IT_OUT.md](TRY_IT_OUT.md)
 
 ## 1. Problem Statement
 
