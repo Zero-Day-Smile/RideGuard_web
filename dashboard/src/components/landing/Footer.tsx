@@ -9,13 +9,13 @@ export const Footer = () => {
             <div className="w-8 h-8 rounded-lg gradient-hero flex items-center justify-center">
               <Shield className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-lg text-foreground">RideGurd</span>
+            <span className="font-display font-bold text-lg text-foreground">RideGuard</span>
           </div>
           <p className="text-sm text-muted-foreground">
             Protecting every ride, every shift, every week.
           </p>
           <p className="text-xs text-muted-foreground">
-            © 2026 RideGurd. Built for India's gig economy.
+            © 2026 RideGuard. Built for India's gig economy.
           </p>
         </div>
       </div>

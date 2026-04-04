@@ -4,6 +4,6 @@ export default defineConfig({
   testDir: "./src/test",
   timeout: 30_000,
   use: {
-    baseURL: "http://localhost:8080",
+    baseURL: "http://localhost:5173",
   },
 });

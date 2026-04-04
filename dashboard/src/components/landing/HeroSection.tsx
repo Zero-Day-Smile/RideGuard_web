@@ -36,10 +36,10 @@ export const HeroSection = () => {
           <ScrollReveal delay={240}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/onboarding">
-                <Button variant="hero" size="xl">Start for ₹65/week</Button>
+                <Button variant="hero" size="xl">Start from ₹20/week</Button>
               </Link>
-              <Link to="/dashboard">
-                <Button variant="hero-outline" size="lg">See Demo Dashboard</Button>
+              <Link to="/#strategy">
+                <Button variant="hero-outline" size="lg">See Underwriting Deck</Button>
               </Link>
             </div>
           </ScrollReveal>

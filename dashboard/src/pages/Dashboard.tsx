@@ -1,19 +1,38 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Shield, CloudRain, Wifi, AlertTriangle, ArrowLeft, IndianRupee, Activity, Clock } from "lucide-react";
+import {
+  Shield,
+  CloudRain,
+  Wifi,
+  AlertTriangle,
+  ArrowLeft,
+  IndianRupee,
+  Activity,
+  Clock,
+  FileText,
+  Calculator,
+  ClipboardCheck,
+  Users as UsersIcon,
+  Settings,
+} from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+import { getCurrentUser } from "@/lib/session";
 import {
   createFraudAlert,
   createTriggerEvent,
   fetchAdminAuditLogs,
   fetchHealth,
   fetchQuote,
+  fetchRealtimeContext,
   fetchRiderSummary,
   fetchTriggers,
+  refreshTriggers,
   updateRiderSnapshot,
   type AdminAuditLogItem,
+  type RealtimeContextResponse,
 } from "@/lib/api";
+import { computeAdvancedRisk } from "@/lib/riskEngine";
 
 const FALLBACK_RISK_SCORE = 72;
 const FALLBACK_WEEKLY_PREMIUM = 65;
@@ -79,12 +98,15 @@ function actionBadgeClass(action: string): string {
 }
 
 const Dashboard = () => {
+  const user = getCurrentUser();
   const [isLoading, setIsLoading] = useState(true);
   const [hasApiError, setHasApiError] = useState(false);
   const [apiOnline, setApiOnline] = useState(true);
   const [adminActionStatus, setAdminActionStatus] = useState("");
   const [isSubmittingAction, setIsSubmittingAction] = useState(false);
   const [auditLogs, setAuditLogs] = useState<AdminAuditLogItem[]>([]);
+  const [realtime, setRealtime] = useState<RealtimeContextResponse | null>(null);
+  const [liveEngineRisk, setLiveEngineRisk] = useState(0);
   const [state, setState] = useState<DashboardState>({
     riskScore: FALLBACK_RISK_SCORE,
     weeklyPremium: FALLBACK_WEEKLY_PREMIUM,
@@ -98,6 +120,87 @@ const Dashboard = () => {
 
   useEffect(() => {
     let isMounted = true;
+
+    const getCurrentCoordinates = async (): Promise<{ lat: number; lon: number } | null> => {
+      if (!navigator.geolocation) return null;
+      return new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+          () => resolve(null),
+          { enableHighAccuracy: true, timeout: 5000 }
+        );
+      });
+    };
+  type RealtimeFallback = RealtimeContextResponse;
+
+  function buildFallbackRealtime(cityName: string): RealtimeFallback {
+    return {
+      location: {
+        city: cityName || "Bengaluru",
+        latitude: 12.9716,
+        longitude: 77.5946,
+        source: "fallback",
+      },
+      weather: {
+        status: "normal",
+        temperatureC: 28,
+        humidity: 62,
+        rainMm: 0,
+        windSpeedKmph: 11,
+        weatherCode: 0,
+        source: "fallback",
+        observedAt: new Date().toISOString(),
+      },
+      traffic: {
+        status: "normal",
+        congestion: 0.28,
+        currentSpeedKmph: 30,
+        freeFlowSpeedKmph: 42,
+        travelTimeDelayMin: 4,
+        source: "fallback",
+        observedAt: new Date().toISOString(),
+      },
+      generatedAt: new Date().toISOString(),
+    };
+  }
+
+    async function loadRealtime() {
+      try {
+        const coords = await getCurrentCoordinates();
+        const cityName = user?.city || "Bengaluru";
+        const live = await fetchRealtimeContext({ lat: coords?.lat, lon: coords?.lon, city: cityName });
+        if (!isMounted) return;
+        setRealtime(live);
+        const latestTriggers = await fetchTriggers();
+        if (!isMounted) return;
+        const platformStatus = (latestTriggers.disruptionSignals || []).find((item) => item.name.toLowerCase().includes("platform"))?.status;
+        const disruptionStatus = (latestTriggers.disruptionSignals || []).find((item) => item.name.toLowerCase().includes("local"))?.status;
+        setLiveEngineRisk(
+          computeAdvancedRisk({
+            realtime: live,
+            platformStatus,
+            disruptionStatus,
+            threshold: 0.62,
+            aggressiveMode: false,
+            baseCooldownMin: 5,
+            nowMs: Date.now(),
+          }).score,
+        );
+      } catch {
+        if (!isMounted) return;
+        const fallback = buildFallbackRealtime(user?.city || "Bengaluru");
+        setRealtime(fallback);
+        setLiveEngineRisk(
+          computeAdvancedRisk({
+            realtime: fallback,
+            threshold: 0.62,
+            aggressiveMode: false,
+            baseCooldownMin: 5,
+            nowMs: Date.now(),
+          }).score,
+        );
+      }
+    }
 
     async function loadDashboard() {
       setIsLoading(true);
@@ -133,6 +236,7 @@ const Dashboard = () => {
           triggerTimeline: triggers.triggerTimeline || [],
         });
         setAuditLogs(audits.logs || []);
+        await loadRealtime();
       } catch {
         if (!isMounted) return;
         setHasApiError(true);
@@ -145,9 +249,15 @@ const Dashboard = () => {
     }
 
     void loadDashboard();
+    void loadRealtime();
+
+    const timer = setInterval(() => {
+      void loadRealtime();
+    }, 60000);
 
     return () => {
       isMounted = false;
+      clearInterval(timer);
     };
   }, []);
 
@@ -202,6 +312,22 @@ const Dashboard = () => {
     } catch {
       setHasApiError(true);
       setApiOnline(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleRefreshSignals() {
+    setIsLoading(true);
+    setHasApiError(false);
+    try {
+      const triggers = await refreshTriggers();
+      setState((prev) => ({
+        ...prev,
+        triggerTimeline: triggers.triggerTimeline || prev.triggerTimeline,
+      }));
+    } catch {
+      setHasApiError(true);
     } finally {
       setIsLoading(false);
     }
@@ -291,6 +417,11 @@ const Dashboard = () => {
               A
             </div>
             <span className="text-sm font-medium text-foreground hidden sm:block">Arjun</span>
+            {user?.role === "admin" && (
+              <span className="hidden sm:inline-flex rounded-full px-2.5 py-1 text-xs font-semibold bg-primary/15 text-primary">
+                Admin Center
+              </span>
+            )}
           </div>
         </div>
       </header>
@@ -312,9 +443,90 @@ const Dashboard = () => {
           </ScrollReveal>
         </div>
 
+        <ScrollReveal>
+          <div className="bg-card rounded-2xl border border-border/50 shadow-card p-6 mb-8">
+            <h2 className="font-display font-semibold text-lg text-foreground mb-4">Real-Time Location, Weather & Traffic</h2>
+            <div className="grid sm:grid-cols-4 gap-3 text-sm">
+              <div className="rounded-xl border border-border/50 p-3 bg-muted/20">
+                <p className="text-xs text-muted-foreground">City</p>
+                <p className="font-semibold text-foreground">{realtime?.location.city || "Locating..."}</p>
+                <p className="text-[10px] text-muted-foreground capitalize">{realtime?.location.source || "loading"}</p>
+              </div>
+              <div className="rounded-xl border border-border/50 p-3 bg-muted/20">
+                <p className="text-xs text-muted-foreground">Weather</p>
+                <p className="font-semibold text-foreground">
+                  {realtime ? `${Math.round(realtime.weather.temperatureC)}°C` : "--"}
+                </p>
+                <p className="text-xs text-muted-foreground capitalize">{realtime?.weather.status || "pending"}</p>
+                <p className="text-[10px] text-muted-foreground">source: {realtime?.weather.source || "loading"}</p>
+              </div>
+              <div className="rounded-xl border border-border/50 p-3 bg-muted/20">
+                <p className="text-xs text-muted-foreground">Traffic Congestion</p>
+                <p className="font-semibold text-foreground">
+                  {realtime ? `${Math.round(realtime.traffic.congestion * 100)}%` : "--"}
+                </p>
+                <p className="text-xs text-muted-foreground capitalize">{realtime?.traffic.status || "pending"}</p>
+                <p className="text-[10px] text-muted-foreground">source: {realtime?.traffic.source || "loading"}</p>
+              </div>
+              <div className="rounded-xl border border-border/50 p-3 bg-muted/20">
+                <p className="text-xs text-muted-foreground">Avg Speed</p>
+                <p className="font-semibold text-foreground">
+                  {realtime ? `${Math.round(realtime.traffic.currentSpeedKmph)} km/h` : "--"}
+                </p>
+                <p className="text-xs text-muted-foreground">live feed</p>
+                <p className="text-[10px] text-muted-foreground">delay {realtime ? `${Math.round(realtime.traffic.travelTimeDelayMin)}m` : "--"}</p>
+              </div>
+              <div className="rounded-xl border border-border/50 p-3 bg-muted/20 sm:col-span-4">
+                <p className="text-xs text-muted-foreground">Shared risk engine</p>
+                <p className="font-semibold text-foreground">{liveEngineRisk.toFixed(2)}</p>
+                <p className="text-xs text-muted-foreground">Used by premium and zero-touch claims</p>
+                <p className="text-[10px] text-muted-foreground">{realtime ? `generated ${new Date(realtime.generatedAt).toLocaleTimeString()}` : "waiting for live feed"}</p>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="bg-card rounded-2xl border border-border/50 shadow-card p-6 mb-8">
+            <h2 className="font-display font-semibold text-lg text-foreground mb-4">Phase 2 Feature Hub</h2>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <FeatureNavCard
+                icon={FileText}
+                title="Policy Management"
+                caption="Create and edit rider policy terms"
+                to="/policy-management"
+              />
+              <FeatureNavCard
+                icon={Calculator}
+                title="Dynamic Premium"
+                caption="Run LR + RF + XGBoost blend quote"
+                to="/premium-lab"
+              />
+              <FeatureNavCard
+                icon={ClipboardCheck}
+                title="Claims / Auto Claim"
+                caption="Zero-touch filing with fraud watch"
+                to="/claims"
+              />
+              <FeatureNavCard
+                icon={UsersIcon}
+                title="Manage Users"
+                caption="Create riders and admins"
+                to="/manage-users"
+              />
+              <FeatureNavCard
+                icon={Settings}
+                title="Settings"
+                caption="Profile and security controls"
+                to="/settings"
+              />
+            </div>
+          </div>
+        </ScrollReveal>
+
         {isLoading && (
           <div className="bg-card rounded-xl border border-border/50 px-4 py-3 text-sm text-muted-foreground mb-6">
-            Loading live RideGurd data...
+            Loading live RideGuard data...
           </div>
         )}
 
@@ -358,7 +570,12 @@ const Dashboard = () => {
         {/* Trigger Events */}
         <ScrollReveal>
           <div className="bg-card rounded-2xl border border-border/50 shadow-card p-6 mb-8">
-            <h2 className="font-display font-semibold text-lg text-foreground mb-4">Recent Trigger Events</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-display font-semibold text-lg text-foreground">Recent Trigger Events</h2>
+              <Button variant="outline" size="sm" onClick={handleRefreshSignals}>
+                Refresh Signals
+              </Button>
+            </div>
             <div className="space-y-4">
               {recentEvents.map((event) => (
                 <div key={event.date + event.type} className="flex items-center justify-between py-3 border-b border-border/30 last:border-0">
@@ -493,6 +710,24 @@ const RiskFactor = ({ label, level, color }: { label: string; level: string; col
     <span className="text-muted-foreground w-32">{label}</span>
     <span className="font-medium text-foreground">{level}</span>
   </div>
+);
+
+const FeatureNavCard = ({
+  icon: Icon,
+  title,
+  caption,
+  to,
+}: {
+  icon: any;
+  title: string;
+  caption: string;
+  to: string;
+}) => (
+  <Link to={to} className="rounded-xl border border-border/50 p-4 hover:border-primary/40 transition-colors">
+    <Icon className="w-5 h-5 text-primary mb-2" />
+    <p className="text-sm font-semibold text-foreground">{title}</p>
+    <p className="text-xs text-muted-foreground mt-1">{caption}</p>
+  </Link>
 );
 
 export default Dashboard;

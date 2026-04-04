@@ -6,26 +6,26 @@ import { Check } from "lucide-react";
 const plans = [
   {
     name: "Basic",
-    premium: "₹25",
+    premium: "₹20",
     coverage: "₹1,500",
-    logic: "Rain/day disruption",
-    features: ["Weather disruption coverage", "Basic fraud detection", "UPI payouts", "Weekly risk score"],
+    logic: "Low-risk city pool",
+    features: ["Weather disruption coverage", "Basic fraud detection", "UPI payouts", "Weekly risk score", "7 active days before cover"],
     popular: false,
   },
   {
     name: "Standard",
-    premium: "₹40",
+    premium: "₹35",
     coverage: "₹3,000",
     logic: "Multiple disruptions",
-    features: ["All Basic features", "Platform outage protection", "Traffic shutdown coverage", "Priority payouts (<3 min)", "Weekly risk analytics"],
+    features: ["All Basic features", "Platform outage protection", "Traffic shutdown coverage", "Priority payouts (<3 min)", "Weekly risk analytics", "Actuarial guardrails"],
     popular: true,
   },
   {
     name: "Plus",
-    premium: "₹55",
+    premium: "₹50",
     coverage: "₹5,000",
     logic: "Full-week protection",
-    features: ["All Standard features", "Full-week income shield", "Mobility restriction coverage", "Reliability discounts", "Advanced fraud protection"],
+    features: ["All Standard features", "Full-week income shield", "Mobility restriction coverage", "Reliability discounts", "Advanced fraud protection", "Best-fit for high-volume riders"],
     popular: false,
   },
 ];
@@ -37,10 +37,10 @@ export const PricingSection = () => {
         <ScrollReveal>
           <div className="text-center mb-16">
             <h2 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-4">
-              Weekly plans that fit your hustle
+              Weekly plans that stay affordable and sustainable
             </h2>
             <p className="text-muted-foreground text-lg max-w-lg mx-auto">
-              Pay weekly, stay protected weekly. Cancel anytime. AI recalculates your premium each week.
+              Pay weekly, stay protected weekly. Cancel anytime. The model recalculates every week and stays inside the target premium band.
             </p>
           </div>
         </ScrollReveal>

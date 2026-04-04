@@ -17,12 +17,13 @@ export const Navbar = () => {
           <div className="w-9 h-9 rounded-lg gradient-hero flex items-center justify-center">
             <Shield className="w-5 h-5 text-primary-foreground" />
           </div>
-          <span className="font-display font-bold text-xl text-foreground">RideGurd</span>
+          <span className="font-display font-bold text-xl text-foreground">RideGuard</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-7">
           <a href={sectionHref("features")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Features</a>
           <a href={sectionHref("how-it-works")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
+          <a href={sectionHref("strategy")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Strategy</a>
           <a href={sectionHref("defense")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Defense</a>
           <a href={sectionHref("pricing")} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
           <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Contact</Link>
@@ -62,6 +63,7 @@ export const Navbar = () => {
         <div className="md:hidden border-t border-border bg-background px-4 py-4 space-y-3 animate-reveal-up">
           <a href={sectionHref("features")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Features</a>
           <a href={sectionHref("how-it-works")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>How It Works</a>
+          <a href={sectionHref("strategy")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Strategy</a>
           <a href={sectionHref("defense")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Defense</a>
           <a href={sectionHref("pricing")} className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Pricing</a>
           <Link to="/contact" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Contact</Link>

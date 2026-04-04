@@ -28,9 +28,9 @@ const Onboarding = () => {
   const canNext = !!selections[currentStep.id];
 
   const handleFinish = () => {
-    localStorage.setItem("ridegurd-onboarding", JSON.stringify(selections));
+    localStorage.setItem("rideguard-onboarding", JSON.stringify(selections));
     localStorage.removeItem("rideguard-onboarding");
-    navigate("/dashboard");
+    navigate("/rider/dashboard");
   };
 
   const renderOptions = () => {
@@ -52,9 +52,9 @@ const Onboarding = () => {
     if (step === 3) {
       return (
         <div className="space-y-4">
-          <CoverageCard name="Basic" premium="₹25/week" coverage="₹1,500" logic="Rain/day disruption" selected={selections.coverage === "basic"} onClick={() => select("coverage", "basic")} />
-          <CoverageCard name="Standard" premium="₹40/week" coverage="₹3,000" logic="Multiple disruptions" selected={selections.coverage === "standard"} onClick={() => select("coverage", "standard")} recommended />
-          <CoverageCard name="Plus" premium="₹55/week" coverage="₹5,000" logic="Full-week protection" selected={selections.coverage === "plus"} onClick={() => select("coverage", "plus")} />
+          <CoverageCard name="Basic" premium="₹20/week" coverage="₹1,500" logic="Low-risk city pool" selected={selections.coverage === "basic"} onClick={() => select("coverage", "basic")} />
+          <CoverageCard name="Standard" premium="₹35/week" coverage="₹3,000" logic="Multiple disruptions" selected={selections.coverage === "standard"} onClick={() => select("coverage", "standard")} recommended />
+          <CoverageCard name="Plus" premium="₹50/week" coverage="₹5,000" logic="Full-week protection" selected={selections.coverage === "plus"} onClick={() => select("coverage", "plus")} />
         </div>
       );
     }
@@ -67,7 +67,7 @@ const Onboarding = () => {
           <div className="w-9 h-9 rounded-lg gradient-hero flex items-center justify-center">
             <Shield className="w-5 h-5 text-primary-foreground" />
           </div>
-          <span className="font-display font-bold text-xl text-foreground">RideGurd</span>
+          <span className="font-display font-bold text-xl text-foreground">RideGuard</span>
         </div>
       </div>
 

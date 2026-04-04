@@ -1,26 +1,71 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Shield, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { toast } from "sonner";
+import { login, resendVerificationEmail } from "@/lib/api";
+import { setSession } from "@/lib/session";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    const emailParam = searchParams.get("email");
+    if (emailParam) {
+      setEmail(emailParam);
+    }
+    if (searchParams.get("verification") === "pending") {
+      toast.message("Verify your email before signing in.");
+    }
+  }, [searchParams]);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) { toast.error("Please fill in all fields"); return; }
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const auth = await login({ email, password });
+      setSession(auth.token, auth.user);
       toast.success("Welcome back!");
-      navigate("/dashboard");
-    }, 1200);
+      navigate(auth.user.role === "admin" ? "/admin/dashboard" : "/rider/dashboard");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "";
+      if (message.includes("HTTP_401")) {
+        toast.error("Invalid email or password");
+      } else if (message.includes("HTTP_403") || message.toLowerCase().includes("email not verified")) {
+        toast.error("Verify your email first. Check your inbox or resend the link.");
+      } else if (message === "NETWORK_UNREACHABLE") {
+        toast.error("Backend unreachable. Start API on http://localhost:8000");
+      } else {
+        toast.error("Login failed. Check backend and try again");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!email.trim()) {
+      toast.error("Enter your email first");
+      return;
+    }
+
+    setResending(true);
+    try {
+      const response = await resendVerificationEmail({ email: email.trim().toLowerCase() });
+      toast.success(response.verificationSent ? "Verification email sent again." : "If the account exists, a verification email has been queued.");
+    } catch {
+      toast.error("Could not resend verification email");
+    } finally {
+      setResending(false);
+    }
   };
 
   return (
@@ -44,7 +89,7 @@ const Login = () => {
               <div className="w-9 h-9 rounded-lg gradient-hero flex items-center justify-center">
                 <Shield className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="font-display font-bold text-xl text-foreground">RideGurd</span>
+              <span className="font-display font-bold text-xl text-foreground">RideGuard</span>
             </Link>
 
             <h1 className="font-display font-bold text-2xl text-foreground mb-1">Welcome back</h1>
@@ -85,6 +130,52 @@ const Login = () => {
                 {loading ? "Signing in..." : "Sign In"}
               </Button>
             </form>
+
+            <div className="mt-4 rounded-xl border border-border/60 bg-muted/30 p-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-foreground mb-2">Verification</p>
+              <p className="text-xs text-muted-foreground mb-3">If you have not verified your email yet, resend the link here before logging in.</p>
+              <Button variant="outline" size="sm" className="w-full" type="button" onClick={handleResendVerification} disabled={resending}>
+                {resending ? "Sending..." : "Resend verification email"}
+              </Button>
+            </div>
+
+            <div className="mt-5 rounded-xl border border-border/60 bg-muted/30 p-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-foreground mb-2">Demo Credentials</p>
+              <div className="space-y-2 text-xs text-muted-foreground">
+                <div className="flex items-center justify-between gap-2 rounded-lg border border-border/60 bg-background/70 px-2.5 py-2">
+                  <div>
+                    <p className="text-foreground font-medium">Rider</p>
+                    <p>rider@rideguard.dev / rider123</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEmail("rider@rideguard.dev");
+                      setPassword("rider123");
+                    }}
+                    className="text-primary hover:underline"
+                  >
+                    Use
+                  </button>
+                </div>
+                <div className="flex items-center justify-between gap-2 rounded-lg border border-border/60 bg-background/70 px-2.5 py-2">
+                  <div>
+                    <p className="text-foreground font-medium">Admin</p>
+                    <p>admin@rideguard.dev / admin123</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEmail("admin@rideguard.dev");
+                      setPassword("admin123");
+                    }}
+                    className="text-primary hover:underline"
+                  >
+                    Use
+                  </button>
+                </div>
+              </div>
+            </div>
 
             <p className="text-sm text-muted-foreground text-center mt-6">
               Don't have an account?{" "}

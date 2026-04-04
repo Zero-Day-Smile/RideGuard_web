@@ -49,7 +49,7 @@ export const AdversarialDefenseSection = () => {
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               500 fake GPS claims. Coordinated fraud rings. Drained liquidity pools. 
-              RideGurd's multi-layered AI pipeline stops them all — without punishing honest riders.
+              RideGuard's multi-layered AI pipeline stops them all — without punishing honest riders.
             </p>
           </div>
         </ScrollReveal>
@@ -61,7 +61,7 @@ export const AdversarialDefenseSection = () => {
             <p className="text-sm text-muted-foreground leading-relaxed">
               A syndicate of 500 delivery workers in a tier-1 city uses advanced GPS-spoofing apps. 
               While resting at home, they fake locations in severe weather zones — triggering mass false payouts 
-              and draining liquidity pools. Simple GPS verification is officially obsolete. RideGurd's architecture 
+              and draining liquidity pools. Simple GPS verification is officially obsolete. RideGuard's architecture 
               was built for exactly this.
             </p>
           </div>

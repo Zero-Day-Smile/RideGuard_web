@@ -71,3 +71,81 @@ class AdminAuditLog(Base):
     target_id: Mapped[str] = mapped_column(String(64))
     details: Mapped[str] = mapped_column(String(255))
     created_at: Mapped[str] = mapped_column(String(64))
+
+
+class InsurancePolicy(Base):
+    __tablename__ = "insurance_policies"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    rider_name: Mapped[str] = mapped_column(String(64))
+    city: Mapped[str] = mapped_column(String(64))
+    platform: Mapped[str] = mapped_column(String(32))
+    plan_tier: Mapped[str] = mapped_column(String(32))
+    coverage_amount: Mapped[int] = mapped_column(Integer)
+    deductible: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(32))
+    start_date: Mapped[str] = mapped_column(String(32))
+    end_date: Mapped[str] = mapped_column(String(32))
+
+
+class PremiumModelSnapshot(Base):
+    __tablename__ = "premium_model_snapshots"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    model_version: Mapped[str] = mapped_column(String(32))
+    algorithm_mix: Mapped[str] = mapped_column(String(255))
+    refresh_interval_days: Mapped[int] = mapped_column(Integer)
+    last_refresh_at: Mapped[str] = mapped_column(String(64))
+    next_refresh_at: Mapped[str] = mapped_column(String(64))
+    location_risk_weight: Mapped[float] = mapped_column(Float)
+    weather_risk_weight: Mapped[float] = mapped_column(Float)
+    traffic_risk_weight: Mapped[float] = mapped_column(Float)
+    disruption_risk_weight: Mapped[float] = mapped_column(Float)
+    claim_frequency_weight: Mapped[float] = mapped_column(Float)
+    suggested_base_premium: Mapped[int] = mapped_column(Integer)
+
+
+class ClaimCase(Base):
+    __tablename__ = "claim_cases"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True)
+    policy_id: Mapped[int] = mapped_column(Integer)
+    incident_type: Mapped[str] = mapped_column(String(64))
+    incident_at: Mapped[str] = mapped_column(String(64))
+    claim_amount: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(32))
+    fraud_score: Mapped[float] = mapped_column(Float)
+    auto_approved: Mapped[str] = mapped_column(String(8))
+    notes: Mapped[str] = mapped_column(String(255))
+
+
+class AppUser(Base):
+    __tablename__ = "app_users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    full_name: Mapped[str] = mapped_column(String(64))
+    email: Mapped[str] = mapped_column(String(120), unique=True, index=True)
+    password_hash: Mapped[str] = mapped_column(String(255))
+    role: Mapped[str] = mapped_column(String(16))
+    city: Mapped[str] = mapped_column(String(64), default="")
+    platform: Mapped[str] = mapped_column(String(32), default="")
+    email_verified_at: Mapped[str] = mapped_column(String(64), nullable=True, default=None)
+    email_verification_token: Mapped[str] = mapped_column(String(128), nullable=True, default=None)
+    email_verification_expires_at: Mapped[str] = mapped_column(String(64), nullable=True, default=None)
+    created_at: Mapped[str] = mapped_column(String(64))
+
+
+class UserSetting(Base):
+    __tablename__ = "user_settings"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(Integer, index=True)
+    theme: Mapped[str] = mapped_column(String(16), default="system")
+    language: Mapped[str] = mapped_column(String(16), default="en")
+    email_alerts: Mapped[str] = mapped_column(String(8), default="yes")
+    sms_alerts: Mapped[str] = mapped_column(String(8), default="no")
+    profile_pic_url: Mapped[str] = mapped_column(String(255), default="")
+    id_verification_status: Mapped[str] = mapped_column(String(32), default="unverified")
+    id_number: Mapped[str] = mapped_column(String(64), default="")
+    vehicle_type: Mapped[str] = mapped_column(String(32), default="bike")
+    emergency_contact: Mapped[str] = mapped_column(String(32), default="")

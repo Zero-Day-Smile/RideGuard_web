@@ -1,10 +1,10 @@
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const steps = [
-  { number: "01", title: "Connect", description: "Link your delivery platform and share your location. We build your risk profile in seconds." },
-  { number: "02", title: "Choose Coverage", description: "Pick a weekly plan that matches your earnings. Premiums start at just ₹65/week." },
-  { number: "03", title: "Stay Protected", description: "Our AI monitors weather, traffic, and platform uptime 24/7 while you ride." },
-  { number: "04", title: "Get Paid", description: "When a disruption hits, your payout is triggered and deposited automatically." },
+  { number: "01", title: "Underwrite", description: "Link your delivery platform, city, and active-days history. We decide eligibility in a few guided steps." },
+  { number: "02", title: "Choose Coverage", description: "Pick a weekly plan that matches your earnings. Premiums stay inside the ₹20-₹50 target band." },
+  { number: "03", title: "Monitor Triggers", description: "Our model watches weather, traffic, platform uptime, and local disruptions around the clock." },
+  { number: "04", title: "Settle Fast", description: "When a trigger hits, the claim is checked and the payout is deposited automatically." },
 ];
 
 export const HowItWorksSection = () => {
@@ -14,10 +14,10 @@ export const HowItWorksSection = () => {
         <ScrollReveal>
           <div className="text-center mb-16">
             <h2 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-4">
-              Protection in 4 simple steps
+              Underwriting and settlement in 4 simple steps
             </h2>
             <p className="text-muted-foreground text-lg max-w-lg mx-auto">
-              From sign-up to payout — everything happens without paperwork.
+              From sign-up to payout — everything happens without paperwork and without monthly pricing.
             </p>
           </div>
         </ScrollReveal>

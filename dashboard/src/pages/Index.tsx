@@ -5,6 +5,7 @@ import { ProblemSection } from "@/components/landing/ProblemSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { PersonaSection } from "@/components/landing/PersonaSection";
 import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
+import { StrategySection } from "@/components/landing/StrategySection";
 import { ParametricSection } from "@/components/landing/ParametricSection";
 import { AdversarialDefenseSection } from "@/components/landing/AdversarialDefenseSection";
 import { PricingSection } from "@/components/landing/PricingSection";
@@ -21,6 +22,7 @@ const Index = () => {
         <FeaturesSection />
         <PersonaSection />
         <HowItWorksSection />
+        <StrategySection />
         <ParametricSection />
         <AdversarialDefenseSection />
         <PricingSection />
