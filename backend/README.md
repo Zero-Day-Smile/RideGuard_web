@@ -3,16 +3,6 @@
 
 FastAPI service exposing RideGuard dashboard and pricing contract endpoints.
 
-## Built With
-
-- Python
-- FastAPI
-- Uvicorn
-- SQLAlchemy
-- PostgreSQL
-- SQLite
-- Requests
-
 ## Quickstart
 
 1. **Clone the repo and enter backend:**

@@ -1,12 +1,5 @@
 # AI Models (Planned)
 
-## Built With
-
-- Python
-- scikit-learn
-- pandas
-- NumPy
-
 ## Objectives
 - Weekly premium estimation
 - Income stability forecasting

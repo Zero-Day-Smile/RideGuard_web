@@ -2,18 +2,6 @@
 
 This folder contains the complete RideGuard web frontend built with React, Vite, TypeScript, and Tailwind CSS.
 
-## Built With
-
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- Radix UI
-- TanStack Query
-- Vitest
-- Playwright
-
 ## Prerequisites
 - Node.js (v18+ recommended)
 - npm or yarn
