@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RideGuard Rider</string>
+    <string name="title_activity_main">RideGuard Rider</string>
+    <string name="package_name">com.rideguard.riderweb</string>
+    <string name="custom_url_scheme">com.rideguard.riderweb</string>
+</resources>

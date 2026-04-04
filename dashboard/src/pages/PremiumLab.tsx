@@ -18,8 +18,12 @@ import {
   type PremiumModelConfig,
   type PremiumModelInputs,
 } from "@/lib/phase2Models";
-import { computeAdvancedRisk, toRiskScale10 } from "@/lib/riskEngine";
+import { computeAdvancedRisk } from "@/lib/riskEngine";
 import { toast } from "sonner";
+
+function normalizeRisk01(value: number): number {
+  return Math.max(0, Math.min(1, Number.isFinite(value) ? value : 0));
+}
 
 function buildFallbackRealtime(cityName: string) {
   return {
@@ -118,19 +122,19 @@ const PremiumLab = () => {
           nowMs: Date.now(),
         });
         setLiveEngineScore(risk.score);
-        setCityRisk(toRiskScale10(risk.score));
-        setWeatherRisk(toRiskScale10(risk.weatherScore));
-        setTrafficRisk(toRiskScale10(risk.trafficScore));
-        setDisruptionRisk(toRiskScale10(risk.disruptionScore));
+        setCityRisk(normalizeRisk01(risk.score));
+        setWeatherRisk(normalizeRisk01(risk.weatherScore));
+        setTrafficRisk(normalizeRisk01(risk.trafficScore));
+        setDisruptionRisk(normalizeRisk01(risk.disruptionScore));
       }
     } catch {
       const fallback = buildFallbackRealtime("Bengaluru");
       setRealtimeSummary(fallback);
       setLiveEngineScore(0.34);
-      setCityRisk(toRiskScale10(0.34));
-      setWeatherRisk(toRiskScale10(0.25));
-      setTrafficRisk(toRiskScale10(0.22));
-      setDisruptionRisk(toRiskScale10(0.2));
+      setCityRisk(0.34);
+      setWeatherRisk(0.25);
+      setTrafficRisk(0.22);
+      setDisruptionRisk(0.2);
       toast.error("Could not load model data");
     } finally {
       setLoading(false);
@@ -226,10 +230,10 @@ const PremiumLab = () => {
           nowMs: Date.now(),
         });
         setLiveEngineScore(risk.score);
-        setCityRisk(toRiskScale10(risk.score));
-        setWeatherRisk(toRiskScale10(risk.weatherScore));
-        setTrafficRisk(toRiskScale10(risk.trafficScore));
-        setDisruptionRisk(toRiskScale10(risk.disruptionScore));
+        setCityRisk(normalizeRisk01(risk.score));
+        setWeatherRisk(normalizeRisk01(risk.weatherScore));
+        setTrafficRisk(normalizeRisk01(risk.trafficScore));
+        setDisruptionRisk(normalizeRisk01(risk.disruptionScore));
         setReliabilityScore(Math.max(55, Math.round(100 - risk.score * 35)));
       } else {
         setRealtimeSummary(buildFallbackRealtime("Bengaluru"));
