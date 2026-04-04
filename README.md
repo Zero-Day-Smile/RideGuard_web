@@ -70,6 +70,21 @@ For device builds:
 - Android APK download: [downloads/RideGuard-riderweb-debug.apk](downloads/RideGuard-riderweb-debug.apk)
 - Quick testing guide: [TRY_IT_OUT.md](TRY_IT_OUT.md)
 
+## Built With
+
+- Python
+- FastAPI
+- Uvicorn
+- SQLAlchemy
+- PostgreSQL
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Capacitor
+- Vitest
+- Playwright
+
 ## 1. Problem Statement
 
 Gig delivery workers operate on weekly income cycles, but most insurance products are:
@@ -389,40 +404,23 @@ Architecture:
 - Mobile app (primary)
 - Web dashboard (analytics/admin)
 
-## 11. Proposed Tech Stack
-
-### Frontend
-
-- React Native (mobile app)
-- Next.js (dashboard)
-
-### Backend
-
-- FastAPI or Node.js
-- REST APIs
-
-### AI/ML
+## 11. Tech Stack
 
 - Python
+- FastAPI
+- Uvicorn
+- SQLAlchemy
+- PostgreSQL
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Capacitor
+- Vitest
+- Playwright
 - scikit-learn
 - pandas
-- Time-series modeling
-
-### Data Layer
-
-- PostgreSQL
-- Redis (event triggers)
-
-### Integrations
-
-- Weather API
-- Traffic mocks
-- Payment sandbox
-
-### Deployment
-
-- Azure or AWS
-- Docker containers
+- Requests
 
 ## 12. High-Level System Architecture
 
